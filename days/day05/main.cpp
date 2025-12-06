@@ -75,9 +75,9 @@ int main() {
   }
 
   std::cout << "Part 1: " << countFreshFruits(ranges, fruits)
-            << "\n"; // Correct answer 517
+            << std::endl; // Correct answer 517
   std::cout << "Part 2: " << countTotalFreshIDs(ranges)
-            << "\n"; // Correct answer 336173027056994
+            << std::endl; // Correct answer 336173027056994
 
   return 0;
 }

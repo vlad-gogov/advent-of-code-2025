@@ -32,7 +32,13 @@ int main() {
   if (file) {
     std::cin.rdbuf(file.rdbuf());
   }
-  std::cout << "TODO: Output correct result here" << std::endl;
+  size_t result_part1 = 0;
+  size_t result_part2 = 0;
+
+  
+
+  std::cout << "Part 1: " << result_part1 << std::endl;
+  std::cout << "Part 2: " << result_part2 << std::endl;
   return 0;
 }
 EOF
