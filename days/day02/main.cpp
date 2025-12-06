@@ -60,9 +60,7 @@ int main() {
     if (range.empty()) {
       continue;
     }
-    std::size_t pos_dash = range.find('-');
-    std::uint64_t L = stoull(range.substr(0, pos_dash));
-    std::uint64_t R = stoull(range.substr(pos_dash + 1, range.size()));
+    auto [L, R] = parse_range(range);
     for (std::size_t x = L; x <= R; x++) {
       result_part1 += isInvalidPart1(x) ? x : 0;
       result_part2 += isInvalidPart2(x) ? x : 0;

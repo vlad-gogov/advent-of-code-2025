@@ -65,10 +65,7 @@ int main() {
     if (line.empty()) {
       break;
     }
-    size_t pos = line.find('-');
-    std::uint64_t left = std::stoull(line.substr(0, pos));
-    std::uint64_t right = std::stoull(line.substr(pos + 1));
-    ranges.push_back({left, right});
+    ranges.push_back(parse_range(line));
   }
 
   std::vector<std::uint64_t> fruits;
