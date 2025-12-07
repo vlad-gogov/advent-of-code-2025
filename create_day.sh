@@ -12,10 +12,22 @@ mkdir -p "$DIR"
 
 # main.cpp template
 cat > "$DIR/main.cpp" <<EOF
+#include <cctype>
+#include <cmath>
+#include <cstddef>
 #include <cstdint>
 #include <fstream>
 #include <iostream>
-#include <cmath>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <sstream>
+#include <stack>
+#include <string>
+#include <unordered_map>
+#include <vector>
+#include <set>
+#include <unordered_set>
 
 #include "common/util.hpp"
 
