@@ -19,71 +19,72 @@
 
 constexpr const char *input_file = "input.txt";
 
-struct TraceBeamCfg {
-  std::set<std::pair<size_t, size_t>> visited;
+struct TraceBeam {
+  std::vector<std::vector<bool>> visited;
   size_t answer{0};
+
+  TraceBeam(size_t rows, size_t cols)
+      : visited(rows, std::vector<bool>(cols, false)) {}
+
+  void solve(const std::vector<std::string> &rows, int row, int col) {
+    if (row + 1 >= rows.size() || col > rows[0].size() || col < 0) {
+      return;
+    }
+    if (visited[row][col]) {
+      return;
+    }
+    visited[row][col] = true;
+    char below = rows[row + 1][col];
+    if (below == '^') {
+      answer++;
+      int left = col - 1;
+      int right = col + 1;
+      int new_row = row + 1;
+      if (left >= 0) {
+        solve(rows, new_row, left);
+      }
+      if (right < rows[0].size()) {
+        solve(rows, new_row, right);
+      }
+      return;
+    }
+    solve(rows, row + 1, col);
+  }
 };
 
-void traceBeam(const std::vector<std::string> &rows, TraceBeamCfg &cfg, int row,
-               int col) {
-  if (row + 1 >= rows.size() || col > rows[0].size() || col < 0) {
-    return;
-  }
-  if (cfg.visited.contains({row, col})) {
-    return;
-  }
-  cfg.visited.insert({row, col});
-  char below = rows[row + 1][col];
-  if (below == '^') {
-    cfg.answer++;
-    int left = col - 1;
-    int right = col + 1;
-    int new_row = row + 1;
-    if (left >= 0) {
-      traceBeam(rows, cfg, new_row, left);
-    }
-    if (right < rows[0].size()) {
-      traceBeam(rows, cfg, new_row, right);
-    }
-    return;
-  }
-  traceBeam(rows, cfg, row + 1, col);
-}
-
-struct CountPathCfg {
+struct CountPath {
   std::vector<std::vector<uint64_t>> dp;
-  std::vector<std::vector<bool>> dp_visited;
+  std::vector<std::vector<bool>> visited;
 
-  CountPathCfg(size_t rows = 0, size_t cols = 0)
+  CountPath(size_t rows = 0, size_t cols = 0)
       : dp(rows, std::vector<uint64_t>(cols, 0)),
-        dp_visited(rows, std::vector<bool>(cols, false)) {}
+        visited(rows, std::vector<bool>(cols, false)) {}
+
+  size_t solve(const std::vector<std::string> &rows, int row, int col) {
+    if (row < 0 || col < 0 || col >= rows[0].size() || row >= rows.size()) {
+      return 0;
+    }
+    if (row + 1 == rows.size()) {
+      return 1;
+    }
+
+    if (visited[row][col]) {
+      return dp[row][col];
+    }
+
+    visited[row][col] = true;
+    char below = rows[row + 1][col];
+
+    if (below == '^') {
+      dp[row][col] =
+          solve(rows, row + 1, col - 1) + solve(rows, row + 1, col + 1);
+    } else {
+      dp[row][col] = solve(rows, row + 1, col);
+    }
+
+    return dp[row][col];
+  }
 };
-
-size_t countPath(const std::vector<std::string> &rows, CountPathCfg &cfg,
-                 int row, int col) {
-  if (row < 0 || col < 0 || col >= rows[0].size() || row >= rows.size()) {
-    return 0;
-  }
-  if (row + 1 == rows.size()) {
-    return 1;
-  }
-
-  if (cfg.dp_visited[row][col]) {
-    return cfg.dp[row][col];
-  }
-
-  cfg.dp_visited[row][col] = true;
-  char below = rows[row + 1][col];
-
-  if (below == '^') {
-    cfg.dp[row][col] = countPath(rows, cfg, row + 1, col - 1) +
-                       countPath(rows, cfg, row + 1, col + 1);
-  } else {
-    cfg.dp[row][col] = countPath(rows, cfg, row + 1, col);
-  }
-
-  return cfg.dp[row][col];
-}
 
 int main() {
   std::ios::sync_with_stdio(false);
@@ -104,13 +105,13 @@ int main() {
   }
   size_t pos_start = rows[0].find('S');
 
-  TraceBeamCfg trace_cfg;
-  traceBeam(rows, trace_cfg, 0, pos_start);
-  std::cout << "Part 1: " << trace_cfg.answer << std::endl;
+  TraceBeam trace_beam(rows.size(), rows[0].size());
+  trace_beam.solve(rows, 0, pos_start);
+  std::cout << "Part 1: " << trace_beam.answer << std::endl;
 
-  CountPathCfg count_cfg(rows.size(),
-                         rows[0].size()); // Correct answer: 1667
-  std::cout << "Part 2: " << countPath(rows, count_cfg, 0, pos_start)
+  CountPath count_path(rows.size(),
+                       rows[0].size()); // Correct answer: 1667
+  std::cout << "Part 2: " << count_path.solve(rows, 0, pos_start)
             << std::endl; // Correct answer: 62943905501815
   return 0;
 }
