@@ -28,18 +28,9 @@ struct Line {
   Point end;
 };
 
-struct Rectangle {
-  Point bottom_left;
-  Point top_right;
-
-  size_t area() const {
-    return (top_right.x - bottom_left.x + 1) * (top_right.y - bottom_left.y + 1);
-  }
-};
-
-bool intersects(const Line &l, const Rectangle &rect) {
-  return l.end.x > rect.bottom_left.x && l.start.x < rect.top_right.x && l.end.y > rect.bottom_left.y &&
-         l.start.y < rect.top_right.y;
+bool intersects(const Line &l, uint64_t x1, uint64_t y1, uint64_t x2,
+                uint64_t y2) {
+  return l.end.x > x1 && l.start.x < x2 && l.end.y > y1 && l.start.y < y2;
 }
 
 std::pair<size_t, size_t> solve(const std::vector<Point> &tiles) {
@@ -70,8 +61,7 @@ std::pair<size_t, size_t> solve(const std::vector<Point> &tiles) {
       uint64_t y1 = std::min(p1.y, p2.y);
       uint64_t x2 = std::max(p1.x, p2.x);
       uint64_t y2 = std::max(p1.y, p2.y);
-      const Rectangle rect{{x1, y1}, {x2, y2}};
-      size_t area = rect.area();
+      size_t area = (x2 - x1 + 1) * (y2 - y1 + 1);
       largest_are_all_tiles = std::max(largest_are_all_tiles, area);
 
       if (area <= largest_are_red_and_green) {
@@ -80,7 +70,7 @@ std::pair<size_t, size_t> solve(const std::vector<Point> &tiles) {
 
       bool includes_only_red_and_green = true;
       for (const auto &line : lines) {
-        if (intersects(line, rect)) {
+        if (intersects(line, x1, y1, x2, y2)) {
           includes_only_red_and_green = false;
           break;
         }
