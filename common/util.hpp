@@ -7,7 +7,8 @@
 #include <vector>
 
 std::uint64_t count_lines(const std::string& filename);
-std::pair<std::uint64_t, std::uint64_t> parse_range(const std::string &line);
+std::pair<std::uint64_t, std::uint64_t> parse_range(const std::string &line,
+                                                    const char delimiter = '-');
 
 template <typename T> void printVector(const std::vector<T> &vec) {
   for (const auto &item : vec) {

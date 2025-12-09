@@ -132,8 +132,8 @@ int main() {
   }
 
   std::cout << "Part 1: " << result_part1
-            << std::endl; // // Correct answer: 131580
+            << std::endl; // Correct answer: 131580
   std::cout << "Part 2: " << result_part2
-            << std::endl; // // Correct answer: 6844224
+            << std::endl; // Correct answer: 6844224
   return 0;
 }

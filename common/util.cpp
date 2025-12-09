@@ -12,8 +12,9 @@ std::uint64_t count_lines(const std::string &filename) {
     return count;
 }
 
-std::pair<std::uint64_t, std::uint64_t> parse_range(const std::string &line) {
-  size_t dash_pos = line.find('-');
+std::pair<std::uint64_t, std::uint64_t> parse_range(const std::string &line,
+                                                    const char delimiter) {
+  size_t dash_pos = line.find(delimiter);
   if (dash_pos == std::string::npos) {
     throw std::invalid_argument("Invalid range format: " + line);
   }
