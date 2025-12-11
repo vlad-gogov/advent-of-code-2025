@@ -95,8 +95,8 @@ int main() {
     }
   }
   std::cout << "Part 1: " << Solver(graph).dfs("you", "out", 0)
-            << std::endl; // Correct answer 796
+            << std::endl; // Correct answer: 796
   std::cout << "Part 2: " << Solver(graph, {"dac", "fft"}).dfs("svr", "out", 0)
-            << std::endl; // Correct answer 294053029111296
+            << std::endl; // Correct answer: 294053029111296
   return 0;
 }
