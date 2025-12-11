@@ -60,7 +60,7 @@ int main() {
     if (range.empty()) {
       continue;
     }
-    auto [L, R] = parse_range(range);
+    auto [L, R] = parse_numbers<uint64_t>(range, '-');
     for (std::size_t x = L; x <= R; x++) {
       result_part1 += isInvalidPart1(x) ? x : 0;
       result_part2 += isInvalidPart2(x) ? x : 0;

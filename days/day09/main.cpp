@@ -101,7 +101,7 @@ int main() {
   std::vector<Point> tiles;
   std::string line;
   while (std::cin >> line) {
-    std::pair<uint64_t, uint64_t> coords = parse_range(line, ',');
+    std::pair<uint64_t, uint64_t> coords = parse_numbers<uint64_t>(line, ',');
     tiles.push_back({coords.first, coords.second});
   }
 

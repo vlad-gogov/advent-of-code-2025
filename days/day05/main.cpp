@@ -65,7 +65,8 @@ int main() {
     if (line.empty()) {
       break;
     }
-    ranges.push_back(parse_range(line));
+    Range range(parse_numbers<uint64_t>(line, '-'));
+    ranges.push_back(range);
   }
 
   std::vector<std::uint64_t> fruits;
